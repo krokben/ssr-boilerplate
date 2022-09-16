@@ -15,23 +15,18 @@ function main() {
     const appHTML = ReactDOM.renderToString(<App />);
 
     res.send(`
-            <!DOCTYPE html>
-            <html>
-                <head>
-                    <title>TypeScript ReactJS SSR App</title>
-                    <style>
-                        body {
-                            margin: 0px;
-                            padding: 0px;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <main id="root">${appHTML}</main>
-                    <script type="application/javascript" src="bundle.js"></script>
-                </body>
-            </html>
-        `);
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>TypeScript ReactJS SSR App</title>
+                <link rel="stylesheet" href="bundle.css" />
+            </head>
+            <body>
+                <main id="root">${appHTML}</main>
+                <script type="application/javascript" src="bundle.js"></script>
+            </body>
+        </html>
+    `);
     res.end();
     next();
   });
