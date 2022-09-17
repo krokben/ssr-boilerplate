@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/server";
 import Express from "express";
+import fetch from "isomorphic-fetch";
 import App from "../client/App";
 
 declare const module: any;
@@ -11,21 +12,27 @@ function main() {
 
   express.use(Express.static("build"));
 
-  express.get("/*", (req, res, next) => {
+  express.get("/*", async (req, res, next) => {
+    const response = await fetch("https://swapi.dev/api");
+    const resources = Object.keys(await response.json());
+
     const appHTML = ReactDOM.renderToString(<App />);
 
     res.send(`
-        <!DOCTYPE html>
-        <html>
-            <head>
-                <title>TypeScript ReactJS SSR App</title>
-                <link rel="stylesheet" href="bundle.css" />
-            </head>
-            <body>
-                <main id="root">${appHTML}</main>
-                <script type="application/javascript" src="bundle.js"></script>
-            </body>
-        </html>
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>TypeScript ReactJS SSR App</title>
+          <link rel="stylesheet" href="bundle.css" />
+        </head>
+        <body>
+          <script>
+            window.RESOURCES = ${JSON.stringify(resources)};
+          </script>
+          <main id="root">${appHTML}</main>
+          <script type="application/javascript" src="bundle.js"></script>
+        </body>
+      </html>
     `);
     res.end();
     next();
