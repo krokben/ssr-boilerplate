@@ -23,14 +23,14 @@ function main() {
       <html>
         <head>
           <title>TypeScript ReactJS SSR App</title>
-          <link rel="stylesheet" href="bundle.css" />
+          <link rel="stylesheet" href="../assets/bundle.css" />
         </head>
         <body>
           <script>
             window.RESOURCES = ${JSON.stringify(resources)};
           </script>
           <main id="root">${appHTML}</main>
-          <script type="application/javascript" src="bundle.js"></script>
+          <script type="application/javascript" src="../assets/bundle.js"></script>
         </body>
       </html>
     `);
